@@ -5,6 +5,7 @@ export default {
     black: '#000000',
     brown: '#664025',
     red: '#A52A03',
+    gray: '#3f3f3f',
   },
 
   // fonts: {
