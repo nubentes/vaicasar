@@ -3,6 +3,10 @@ import { StatusBar } from 'react-native';
 
 const height = StatusBar.currentHeight;
 
+interface BannerProps {
+  color: string;
+}
+
 export const Container = styled.View`
   flex: 1;
 `;
@@ -41,14 +45,14 @@ export const Date = styled.Text`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-export const Banner = styled.View`
+export const Banner = styled.View<BannerProps>`
   position: absolute;
   bottom: 0px;
 
   width: 100%;
   height: 50px;
 
-  background-color: ${({ theme }) => theme.colors.green};
+  background-color: ${({ color }) => color};
 
   align-items: center;
   justify-content: center;

@@ -1,7 +1,6 @@
 import React from 'react';
 import Icon from '../../assets/logo.svg';
 import {
-  Container,
   Logo,
   Img,
   Title,
@@ -12,7 +11,12 @@ import {
   BannerInfo,
 } from './styles';
 
-export default function Header() {
+interface HeaderProps {
+  banner: string;
+  color: string;
+}
+
+export default function Header({ banner, color }: HeaderProps) {
   return (
     <Img
       source={{
@@ -32,8 +36,8 @@ export default function Header() {
         <Date>15 de Maio de 2023</Date>
       </Info>
 
-      <Banner>
-        <BannerInfo>223 dias</BannerInfo>
+      <Banner color={color}>
+        <BannerInfo>{banner}</BannerInfo>
       </Banner>
     </Img>
   );
