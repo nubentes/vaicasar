@@ -1,12 +1,15 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import Home from './src/screens/Home';
+import TaskProvider from './src/context/list';
+import Routes from './src/routes/app.routes';
 import theme from './src/styles/theme';
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Home />
+      <TaskProvider>
+        <Routes />
+      </TaskProvider>
     </ThemeProvider>
   );
 }
