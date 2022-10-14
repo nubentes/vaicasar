@@ -1,23 +1,31 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components/native';
+import { useTask } from '../../context/list';
 
 import { Container, Item, Title, Date, Checkbox } from './styles';
 
-export interface Task {
+export interface TaskProps {
   icon?: string;
   title: string;
   date: string;
+  loja?: {
+    name: string;
+    category: string;
+  };
   finished: boolean;
+  description: string;
 }
 
-export default function List({ list }: { list: Task[] }): JSX.Element {
-  const [tasks, setTasks] = useState<Task[]>([]);
-
+export default function List(): JSX.Element {
+  const { list } = useTask();
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
+  const navigation = useNavigation();
   const theme = useTheme();
 
-  const changeValue = (item: Task) => {
+  const changeValue = (item: TaskProps) => {
     const temp = list.map(i => {
       if (i.title === item.title) {
         i.finished = !item.finished;
@@ -30,9 +38,13 @@ export default function List({ list }: { list: Task[] }): JSX.Element {
     setTasks(temp);
   };
 
-  const taskItem = (item: Task) => {
+  const handleNavigation = (item: TaskProps) => {
+    navigation.navigate('Task', { task: item });
+  };
+
+  const taskItem = (item: TaskProps) => {
     return (
-      <Item key={item.title}>
+      <Item key={item.title} onPress={() => handleNavigation(item)}>
         <Icon
           name={item.icon ? item.icon : ''}
           size={24}
