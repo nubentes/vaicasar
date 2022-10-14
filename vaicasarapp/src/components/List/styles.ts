@@ -1,5 +1,12 @@
 import styled from 'styled-components/native';
 
+export const Container = styled.View`
+  flex: 1;
+
+  align-items: center;
+  margin-top: 20px;
+`;
+
 export const Item = styled.TouchableOpacity`
   width: 300px;
   height: 50px;
@@ -10,7 +17,7 @@ export const Item = styled.TouchableOpacity`
 
   border: 1px solid black;
 
-  margin: 5px;
+  margin: 10px;
 
   border-radius: 6px;
 `;

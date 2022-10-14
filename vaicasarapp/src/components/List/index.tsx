@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components/native';
 
-import { Item, Title, Date, Checkbox } from './styles';
+import { Container, Item, Title, Date, Checkbox } from './styles';
 
 export interface Task {
   icon?: string;
@@ -13,20 +13,26 @@ export interface Task {
 }
 
 export default function List({ list }: { list: Task[] }): JSX.Element {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
   const theme = useTheme();
 
-  const taskItem = ({ item }: { item: Task }) => {
-    const v = item.finished;
+  const changeValue = (item: Task) => {
+    const temp = list.map(i => {
+      if (i.title === item.title) {
+        i.finished = !item.finished;
 
-    const changeValue = () => {
-      if (v) {
-        return <Icon name="check" size={24} color={theme.colors.gray} />;
+        return i;
       }
-      return null;
-    };
+      return i;
+    });
 
+    setTasks(temp);
+  };
+
+  const taskItem = (item: Task) => {
     return (
-      <Item>
+      <Item key={item.title}>
         <Icon
           name={item.icon ? item.icon : ''}
           size={24}
@@ -38,20 +44,32 @@ export default function List({ list }: { list: Task[] }): JSX.Element {
 
         <Date>{item.date}</Date>
 
-        <Checkbox onPress={changeValue}>{changeValue()}</Checkbox>
+        <Checkbox onPress={() => changeValue(item)}>
+          {item.finished ? (
+            <Icon name="check" size={24} color={theme.colors.green} />
+          ) : null}
+        </Checkbox>
       </Item>
     );
   };
 
+  useEffect(() => {
+    if (tasks.length === 0) {
+      setTimeout(() => {
+        setTasks(list);
+      }, 1000);
+    }
+  }, [list, tasks]);
+
   return (
-    <FlatList
-      data={list}
-      renderItem={taskItem}
-      keyExtractor={item => item.title}
-      contentContainerStyle={{
-        alignItems: 'center',
-        paddingTop: 20,
-      }}
-    />
+    <Container>
+      {tasks.length > 0 ? (
+        tasks.map(task => {
+          return taskItem(task);
+        })
+      ) : (
+        <ActivityIndicator size="large" />
+      )}
+    </Container>
   );
 }
