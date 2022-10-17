@@ -1,13 +1,19 @@
 import styled from 'styled-components/native';
 
+interface Props {
+  color: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
+
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const Info = styled.View`
   flex: 1;
 
-  padding: 0px 24px;
+  margin-top: 20px;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -25,8 +31,35 @@ export const Row = styled.View`
 `;
 
 export const Column = styled.View`
-  padding: 0px 24px;
   flex-direction: column;
+`;
+
+export const DateButton = styled.TouchableOpacity`
+  width: 128px;
+  margin-left: 10px;
+
+  border-color: ${({ theme }) => theme.colors.black};
+  border-width: 1px;
+  border-style: solid;
+
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const StoreButton = styled.TouchableOpacity`
+  width: 128px;
+  margin-left: 10px;
+
+  border-color: ${({ theme }) => theme.colors.black};
+  border-width: 1px;
+  border-style: solid;
+
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Label = styled.Text`
@@ -35,19 +68,20 @@ export const Label = styled.Text`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-export const Value = styled.Text`
+export const Value = styled.Text<Props>`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${({ theme, color }) =>
+    color ? theme.colors.black : theme.colors.gray};
+`;
+
+export const DescriptionLabel = styled.Text`
   font-size: 16px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.black};
 `;
 
-export const Description = styled.Text`
-  font-size: 16px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.black};
-`;
-
-export const Input = styled.TextInput`
+export const DescriptionInput = styled.TextInput`
   width: 250px;
   height: 40px;
 
