@@ -3,21 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components/native';
-import { useTask } from '../../context/list';
+import { TaskProps, useTask } from '../../context/list';
 
-import { Container, Item, Title, Date, Checkbox } from './styles';
-
-export interface TaskProps {
-  icon?: string;
-  title: string;
-  date: string;
-  loja?: {
-    name: string;
-    category: string;
-  };
-  finished: boolean;
-  description: string;
-}
+import { Container, Button, Item, Title, Date, Checkbox } from './styles';
 
 export default function List(): JSX.Element {
   const { list } = useTask();
@@ -38,13 +26,17 @@ export default function List(): JSX.Element {
     setTasks(temp);
   };
 
-  const handleNavigation = (item: TaskProps) => {
+  const handleEdit = (item: TaskProps) => {
     navigation.navigate('Task', { task: item });
+  };
+
+  const handleAdd = () => {
+    navigation.navigate('Task', { task: {} });
   };
 
   const taskItem = (item: TaskProps) => {
     return (
-      <Item key={item.title} onPress={() => handleNavigation(item)}>
+      <Item key={item.title} onPress={() => handleEdit(item)}>
         <Icon
           name={item.icon ? item.icon : ''}
           size={24}
@@ -54,7 +46,7 @@ export default function List(): JSX.Element {
 
         <Title>{item.title}</Title>
 
-        <Date>{item.date}</Date>
+        <Date>{item.scheduledDate?.dateString}</Date>
 
         <Checkbox onPress={() => changeValue(item)}>
           {item.finished ? (
@@ -75,6 +67,9 @@ export default function List(): JSX.Element {
 
   return (
     <Container>
+      <Button onPress={() => handleAdd()}>
+        <Icon name="plus" size={24} color={theme.colors.white} />
+      </Button>
       {tasks.length > 0 ? (
         tasks.map(task => {
           return taskItem(task);

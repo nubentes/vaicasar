@@ -7,6 +7,18 @@ export const Container = styled.View`
   margin-top: 20px;
 `;
 
+export const Button = styled.TouchableOpacity`
+  background-color: ${({ theme }) => theme.colors.green};
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50px;
+
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Item = styled.TouchableOpacity`
   width: 300px;
   height: 50px;
