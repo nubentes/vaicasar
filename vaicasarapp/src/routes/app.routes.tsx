@@ -7,7 +7,7 @@ import {
 
 import Home from '../screens/Home';
 import Task from '../screens/Task';
-import { TaskProps } from '../components/List';
+import { TaskProps } from '../context/list';
 
 type RootStackParamList = {
   Home: undefined;
