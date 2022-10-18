@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 
+interface Props {
+  check: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
 
@@ -19,7 +23,7 @@ export const Button = styled.TouchableOpacity`
   justify-content: center;
 `;
 
-export const Item = styled.TouchableOpacity`
+export const Item = styled.TouchableOpacity<Props>`
   width: 300px;
   height: 50px;
 
@@ -27,7 +31,10 @@ export const Item = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
 
-  border: 1px solid black;
+  border-width: 1px;
+  border-color: ${({ theme, check }) =>
+    check ? theme.colors.green : theme.colors.black};
+  border-style: solid;
 
   margin: 10px;
 
@@ -42,23 +49,26 @@ export const Title = styled.Text`
   flex-grow: 1;
 `;
 
-export const Date = styled.Text`
+export const DateText = styled.Text`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.gray};
   margin-left: 5px;
 `;
 
-export const Checkbox = styled.TouchableOpacity`
-  width: 24px;
-  height: 24px;
+export const Checkbox = styled.TouchableOpacity<Props>`
+  width: 28px;
+  height: 28px;
 
   align-items: center;
   justify-content: center;
 
   border-width: 1px;
-  border-color: ${({ theme }) => theme.colors.gray};
+  border-color: ${({ theme, check }) =>
+    check ? theme.colors.green : theme.colors.black};
   border-style: solid;
 
   margin-right: 10px;
   margin-left: 10px;
 `;
+
+export const IconButton = styled.TouchableOpacity``;

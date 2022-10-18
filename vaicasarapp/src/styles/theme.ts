@@ -1,11 +1,12 @@
 export default {
   colors: {
     white: '#FFFFFF',
-    green: '#315307',
+    green: '#376400',
     black: '#000000',
     brown: '#664025',
     red: '#A52A03',
     gray: '#3f3f3f',
+    blue: '#124EC2',
   },
 
   // fonts: {
