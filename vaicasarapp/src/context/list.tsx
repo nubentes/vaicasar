@@ -10,11 +10,12 @@ export interface StoreProps {
   category: string;
 }
 export interface TaskProps {
+  id: number | null;
   icon?: string;
-  title: string;
+  title: string | '';
   scheduledDate?: DayProps | null;
   conclusionDate?: DayProps | null;
-  store?: StoreProps;
+  store?: StoreProps | null;
   finished: boolean;
   description?: string;
 }
@@ -29,15 +30,17 @@ const TaskContext = createContext({} as TaskList);
 export default function TaskProvider({ children }: ProviderProps) {
   const [list, setList] = useState<TaskProps[]>([
     {
+      id: 0,
       icon: 'silverware-fork-knife',
       title: 'Buffet',
       scheduledDate: null,
       conclusionDate: null,
       store: { name: 'Patricia Xavier', category: 'Buffet' },
-      finished: true,
+      finished: false,
       description: '',
     },
     {
+      id: 1,
       icon: 'book',
       title: 'Cerimônia',
       scheduledDate: null,
@@ -47,6 +50,7 @@ export default function TaskProvider({ children }: ProviderProps) {
       description: 'Fazer tal coisa',
     },
     {
+      id: 2,
       icon: 'party-popper',
       title: 'Festa',
       scheduledDate: null,
@@ -56,6 +60,7 @@ export default function TaskProvider({ children }: ProviderProps) {
       description: 'Fazer tal coisa',
     },
     {
+      id: 3,
       icon: 'map-marker-outline',
       title: 'Lua de Mel',
       scheduledDate: null,
@@ -65,6 +70,7 @@ export default function TaskProvider({ children }: ProviderProps) {
       description: 'Fazer tal coisa',
     },
     {
+      id: 4,
       icon: 'music',
       title: 'Música',
       scheduledDate: null,
