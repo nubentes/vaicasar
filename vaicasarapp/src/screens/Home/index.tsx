@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Header banner="223 dias" color={theme.colors.green} />
+        <Header title="223 dias" color={theme.colors.green} />
 
         <List />
       </ScrollView>
