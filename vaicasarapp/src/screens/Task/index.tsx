@@ -7,56 +7,96 @@ import { Calendar, DayProps } from '../../components/Calendar';
 import Header from '../../components/Header';
 import { StoreProps, useTask } from '../../context/list';
 import { Props } from '../../routes/app.routes';
-import Input from '../../components/Input';
 
 import {
   Container,
   Info,
-  Button,
+  GoBack,
   Row,
   Label,
   Value,
   Column,
   SaveButton,
-  DateButton,
-  DescriptionLabel,
+  DataButton,
   DescriptionInput,
-  StoreButton,
+  TitleInput,
+  SaveTitle,
 } from './styles';
 
 export default function Task({ navigation, route }: Props) {
   const { list, setList } = useTask();
-  const { task } = route.params;
+  const { task, type } = route.params;
+
+  const [title, setTitle] = useState<string>(task?.title || '');
   const [scheduledDate, setScheduledDate] = useState<DayProps | null>(
     task?.scheduledDate || null,
   );
   const [conclusionDate, setConclusionDate] = useState<DayProps | null>(
     task?.conclusionDate || null,
   );
-  const [store, setStore] = useState<StoreProps | undefined>(task?.store);
+  const [store, setStore] = useState<StoreProps | null>(task?.store || null);
   const [description, setDescription] = useState<string | undefined>(
     task?.description || '',
   );
+  const [finished, setFinished] = useState<boolean>(task?.finished || false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const theme = useTheme();
 
+  const isNotTypeView = type !== 'view';
+
   const handleSave = () => {
     try {
-      const temp = list.map(item => {
-        if (item.title === task.title) {
-          item.description = description;
+      switch (type) {
+        case 'add':
+          console.log('entrou');
+          const newElement = {
+            id: list.length + 1,
+            icon: 'arrow',
+            title,
+            scheduledDate,
+            conclusionDate,
+            store,
+            description,
+            finished,
+          };
 
-          item.scheduledDate = scheduledDate;
+          const newList = [...list];
 
-          return item;
-        }
-        return item;
-      });
+          console.log('Antes');
+          newList.map(t => console.log(`${t.id} - ${t.title}`));
+          console.log('Depois');
 
-      setList(temp);
+          newList.push(newElement);
+
+          setList(newList);
+
+          break;
+
+        case 'edit':
+          const temp = list.map(item => {
+            if (item.id === task.id) {
+              item.title = title;
+              item.scheduledDate = scheduledDate;
+              item.description = description;
+
+              return item;
+            }
+
+            return item;
+          });
+
+          setList(temp);
+          break;
+        default:
+          break;
+      }
 
       Alert.alert('Sucesso!', 'Informações foram salvas!');
+
+      setTimeout(() => {
+        navigation.goBack();
+      }, 1000);
     } catch (error) {
       Alert.alert('Erro', 'Tente novamente mais tarde!');
     }
@@ -74,68 +114,91 @@ export default function Task({ navigation, route }: Props) {
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Header banner={task.title} color={theme.colors.red} />
+        <Header title="223 dias" color={theme.colors.green} />
 
-        <Button onPress={() => navigation.goBack()}>
+        <GoBack onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" size={24} color={theme.colors.black} />
-        </Button>
+        </GoBack>
 
         <Info>
-          <Column>
+          <Row>
+            <Icon
+              name="note"
+              size={24}
+              color={theme.colors.gray}
+              style={{ marginLeft: 10, marginRight: 10 }}
+            />
+
+            <Label>Título: </Label>
+
+            <TitleInput
+              value={title}
+              autoCorrect={false}
+              autoCapitalize={false}
+              onChangeText={(text: string) => setTitle(text)}
+              editable={isNotTypeView}
+            />
+          </Row>
+
+          <Row>
+            <Icon
+              name="calendar-blank-outline"
+              size={24}
+              color={theme.colors.gray}
+              style={{ marginLeft: 10, marginRight: 10 }}
+            />
+
+            <Label>Data prevista: </Label>
+
+            <DataButton
+              onPress={() => setModalVisible(true)}
+              disabled={!isNotTypeView}
+            >
+              {scheduledDate?.dateString ? (
+                <Value color={theme.colors.black}>
+                  {scheduledDate?.dateString}
+                </Value>
+              ) : (
+                <Value>DD/MM/AAAA</Value>
+              )}
+            </DataButton>
+          </Row>
+
+          <Modal
+            animationInTiming={1000}
+            animationOutTiming={1000}
+            backdropTransitionInTiming={1000}
+            backdropTransitionOutTiming={0}
+            isVisible={modalVisible}
+            onBackdropPress={() => setModalVisible(false)}
+          >
+            <Calendar
+              style={{ borderRadius: 10 }}
+              markedDates={{ scheduledDate: { marked: true } }}
+              onDayPress={date => onDateChange(date)}
+              headerStyle={{
+                borderBottomWidth: 0.5,
+                paddingBottom: 10,
+                marginBottom: 10,
+              }}
+            />
+          </Modal>
+
+          {task.conclusionDate ? (
             <Row>
               <Icon
                 name="calendar-blank-outline"
                 size={24}
-                color={theme.colors.gray}
+                color={theme.colors.green}
                 style={{ marginLeft: 10, marginRight: 10 }}
               />
 
-              <Label>Data prevista: </Label>
+              <Label color>Data conclusão:</Label>
 
-              <DateButton onPress={() => setModalVisible(true)}>
-                <Value color={theme.colors.gray}>
-                  {scheduledDate?.dateString ||
-                    new Date().toLocaleDateString('pt-BR')}
-                </Value>
-              </DateButton>
+              <DataButton disabled color>
+                <Value color>{task.conclusionDate.dateString}</Value>
+              </DataButton>
             </Row>
-
-            <Modal
-              animationInTiming={1000}
-              animationOutTiming={1000}
-              backdropTransitionInTiming={1000}
-              backdropTransitionOutTiming={0}
-              isVisible={modalVisible}
-              onBackdropPress={() => setModalVisible(false)}
-            >
-              <Calendar
-                style={{ borderRadius: 10 }}
-                markedDates={{ scheduledDate: { marked: true } }}
-                onDayPress={date => onDateChange(date)}
-                headerStyle={{
-                  borderBottomWidth: 0.5,
-                  paddingBottom: 10,
-                  marginBottom: 10,
-                }}
-              />
-            </Modal>
-          </Column>
-
-          {task.conclusionDate ? (
-            <Column>
-              <Row>
-                <Icon
-                  name="calendar-blank-outline"
-                  size={24}
-                  color={theme.colors.gray}
-                  style={{ marginLeft: 10, marginRight: 10 }}
-                />
-
-                <Label>Data conclusão: </Label>
-              </Row>
-
-              <Value>{task.conclusionDate.toLocaleDateString('pt-BR')}</Value>
-            </Column>
           ) : null}
 
           <Row>
@@ -148,37 +211,40 @@ export default function Task({ navigation, route }: Props) {
 
             <Label>Loja: </Label>
 
-            <StoreButton>
+            <DataButton disabled={!isNotTypeView}>
               <Value color={!!task.store?.name}>
                 {task.store?.name || 'Loja'}
               </Value>
-            </StoreButton>
+            </DataButton>
           </Row>
 
-          <Column style={{ paddingLeft: 24 }}>
-            <DescriptionLabel>Descrição: </DescriptionLabel>
+          <Column>
+            <Row>
+              <Icon
+                name="text-box-outline"
+                size={24}
+                color={theme.colors.gray}
+                style={{ marginLeft: 10, marginRight: 10 }}
+              />
 
-            {task.description ? (
-              <DescriptionInput
-                value={description}
-                autoCorrect={false}
-                autoCapitalize={false}
-                onChangeText={(text: string) => setDescription(text)}
-              />
-            ) : (
-              <DescriptionInput
-                value={description}
-                placeholder="Descrição"
-                autoCorrect={false}
-                autoCapitalize={false}
-                onChangeText={(text: string) => setDescription(text)}
-              />
-            )}
+              <Label>Descrição: </Label>
+            </Row>
+
+            <DescriptionInput
+              value={description}
+              placeholder={description ? '' : 'Descrição'}
+              autoCorrect={false}
+              autoCapitalize={false}
+              onChangeText={(text: string) => setDescription(text)}
+              editable={isNotTypeView}
+            />
           </Column>
 
-          <SaveButton onPress={() => handleSave()}>
-            <Label style={{ color: theme.colors.white }}>Salvar</Label>
-          </SaveButton>
+          {type === 'view' ? null : (
+            <SaveButton onPress={() => handleSave()}>
+              <SaveTitle>Salvar</SaveTitle>
+            </SaveButton>
+          )}
         </Info>
       </ScrollView>
     </Container>

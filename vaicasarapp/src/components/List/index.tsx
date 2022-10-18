@@ -1,22 +1,60 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import { ActivityIndicator, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components/native';
+import moment from 'moment';
 import { TaskProps, useTask } from '../../context/list';
+import 'moment/locale/pt-br';
 
-import { Container, Button, Item, Title, Date, Checkbox } from './styles';
+import {
+  Container,
+  Button,
+  Item,
+  Title,
+  DateText,
+  Checkbox,
+  IconButton,
+} from './styles';
 
 export default function List(): JSX.Element {
-  const { list } = useTask();
+  const { list, setList } = useTask();
   const [tasks, setTasks] = useState<TaskProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const navigation = useNavigation();
   const theme = useTheme();
+  const empty: TaskProps = {
+    id: null,
+    title: '',
+    scheduledDate: null,
+    conclusionDate: null,
+    finished: false,
+    store: null,
+    description: '',
+    icon: 'arrow',
+  };
 
   const changeValue = (item: TaskProps) => {
     const temp = list.map(i => {
       if (i.title === item.title) {
         i.finished = !item.finished;
+
+        if (i.finished) {
+          const currentDate = moment().format('L');
+
+          const day = moment().get('date');
+          const month = moment().get('month') + 1;
+          const year = moment().get('year');
+          const timestamp = moment().valueOf();
+
+          i.conclusionDate = {
+            dateString: currentDate,
+            day,
+            month,
+            year,
+            timestamp,
+          };
+        }
 
         return i;
       }
@@ -26,56 +64,111 @@ export default function List(): JSX.Element {
     setTasks(temp);
   };
 
-  const handleEdit = (item: TaskProps) => {
-    navigation.navigate('Task', { task: item });
-  };
+  const handleAction = (item: TaskProps, { type }: { type: string }) => {
+    switch (type) {
+      case 'view':
+        navigation.navigate('Task', { task: item, type: 'view' });
+        break;
+      case 'add':
+        navigation.navigate('Task', { task: {}, type: 'add' });
 
-  const handleAdd = () => {
-    navigation.navigate('Task', { task: {} });
+        break;
+      case 'edit':
+        navigation.navigate('Task', { task: item, type: 'edit' });
+
+        break;
+      case 'delete':
+        Alert.alert('Aviso', 'Tem certeza que deseja cancelar? ', [
+          {
+            text: 'Sim',
+            onPress: () => {
+              setLoading(true);
+
+              const filteredList = tasks.filter(t => t.id !== item.id);
+
+              setList(filteredList);
+
+              setTimeout(() => {
+                Alert.alert('Sucesso!', 'Item deletado com sucesso!');
+                setLoading(false);
+              }, 1000);
+            },
+          },
+          {
+            text: 'Não',
+            style: 'cancel',
+          },
+        ]);
+
+        break;
+      default:
+        break;
+    }
   };
 
   const taskItem = (item: TaskProps) => {
     return (
-      <Item key={item.title} onPress={() => handleEdit(item)}>
-        <Icon
-          name={item.icon ? item.icon : ''}
-          size={24}
-          color={theme.colors.gray}
-          style={{ marginLeft: 10, marginRight: 10 }}
-        />
-
-        <Title>{item.title}</Title>
-
-        <Date>{item.scheduledDate?.dateString}</Date>
-
-        <Checkbox onPress={() => changeValue(item)}>
+      <Item
+        key={item.title}
+        onPress={() => handleAction(item, { type: 'view' })}
+        check={item.finished}
+      >
+        <Checkbox check={item.finished} onPress={() => changeValue(item)}>
           {item.finished ? (
             <Icon name="check" size={24} color={theme.colors.green} />
           ) : null}
         </Checkbox>
+
+        <Title>{item.title}</Title>
+
+        <DateText>{item.scheduledDate?.dateString}</DateText>
+
+        <IconButton onPress={() => handleAction(item, { type: 'edit' })}>
+          <Icon
+            name="pencil-outline"
+            size={24}
+            color={theme.colors.blue}
+            style={{ marginLeft: 10, marginRight: 10 }}
+          />
+        </IconButton>
+
+        <IconButton onPress={() => handleAction(item, { type: 'delete' })}>
+          <Icon
+            name="trash-can-outline"
+            size={24}
+            color={theme.colors.red}
+            style={{ marginLeft: 10, marginRight: 10 }}
+          />
+        </IconButton>
       </Item>
     );
   };
 
-  useEffect(() => {
-    if (tasks.length === 0) {
-      setTimeout(() => {
+  useFocusEffect(
+    useCallback(() => {
+      const handleData = () => {
         setTasks(list);
+        setLoading(false);
+      };
+
+      setTimeout(() => {
+        handleData();
       }, 1000);
-    }
-  }, [list, tasks]);
+    }, [list]),
+  );
 
   return (
     <Container>
-      <Button onPress={() => handleAdd()}>
+      <Button onPress={() => handleAction(empty, { type: 'add' })}>
         <Icon name="plus" size={24} color={theme.colors.white} />
       </Button>
-      {tasks.length > 0 ? (
+
+      {loading ? (
+        <ActivityIndicator size="large" />
+      ) : (
         tasks.map(task => {
           return taskItem(task);
         })
-      ) : (
-        <ActivityIndicator size="large" />
       )}
     </Container>
   );
