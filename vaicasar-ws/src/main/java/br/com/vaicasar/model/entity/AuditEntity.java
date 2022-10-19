@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -22,6 +24,7 @@ public class AuditEntity implements Serializable{
 	@Column(name = "last_update_user")
 	private String lastUpdateUser;
 	
+	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status")
 	private Status status;
 	

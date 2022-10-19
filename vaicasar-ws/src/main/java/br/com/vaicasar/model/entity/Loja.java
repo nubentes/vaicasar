@@ -1,15 +1,23 @@
 package br.com.vaicasar.model.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "LOJA")
 public class Loja extends AuditEntity implements Serializable {
 
 	private static final long serialVersionUID = 4303345958710765777L;
@@ -40,9 +48,20 @@ public class Loja extends AuditEntity implements Serializable {
 	@Column(name = "URL_FOTO_PERFIL")
 	private String urlFotoPerfil;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "loja", orphanRemoval = true)
 	@JoinColumn(name = "ID_ENDERECO")
 	private Endereco endereco;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_CATEGORIA")
+	private Categoria categoria;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_USUARIO")
+	private Usuario usuario;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "loja", orphanRemoval = true)
+	private List<FotosLoja> fotosLoja;
 
 	public Long getId() {
 		return id;
@@ -114,6 +133,30 @@ public class Loja extends AuditEntity implements Serializable {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<FotosLoja> getFotosLoja() {
+		return fotosLoja;
+	}
+
+	public void setFotosLoja(List<FotosLoja> fotosLoja) {
+		this.fotosLoja = fotosLoja;
 	}
 	
 }
