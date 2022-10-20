@@ -48,7 +48,7 @@ public class Loja extends AuditEntity implements Serializable {
 	@Column(name = "URL_FOTO_PERFIL")
 	private String urlFotoPerfil;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "loja", orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
 	@JoinColumn(name = "ID_ENDERECO")
 	private Endereco endereco;
 	
