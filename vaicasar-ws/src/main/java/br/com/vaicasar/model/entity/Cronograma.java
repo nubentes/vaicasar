@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "CRONOGRAMA")
-public class Cronograma extends AuditEntity implements Serializable {
+public class Cronograma implements Serializable {
 
 	private static final long serialVersionUID = 6334180827765324724L;
 	

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "PESSOA")
-public class Pessoa extends AuditEntity implements Serializable {
+public class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 3623772657247629076L;
 	

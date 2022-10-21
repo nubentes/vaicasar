@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CATEGORIA")
-public class Categoria extends AuditEntity implements Serializable {
+public class Categoria implements Serializable {
 
 	private static final long serialVersionUID = -8630600172927931080L;
 	
