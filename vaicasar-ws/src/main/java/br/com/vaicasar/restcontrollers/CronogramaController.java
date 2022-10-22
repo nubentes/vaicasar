@@ -23,7 +23,7 @@ public class CronogramaController {
 		return cronogramaService.criar(cronogramaDto);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "obter")
+	@RequestMapping(method = RequestMethod.GET, value = "/obter")
 	public Cronograma obterCronograma(@RequestParam(name = "id", required = true) Long id) {
 		return cronogramaService.obterPorId(id);
 	}
