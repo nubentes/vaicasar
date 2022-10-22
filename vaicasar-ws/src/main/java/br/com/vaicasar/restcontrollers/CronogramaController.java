@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vaicasar.dto.CronogramaDTO;
@@ -20,6 +21,11 @@ public class CronogramaController {
 	@RequestMapping(method = RequestMethod.POST, value = "/criar")
 	public Cronograma criar(@RequestBody(required = true) CronogramaDTO cronogramaDto) {
 		return cronogramaService.criar(cronogramaDto);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "obter")
+	public Cronograma obterCronograma(@RequestParam(name = "id", required = true) Long id) {
+		return cronogramaService.obterPorId(id);
 	}
 
 }
