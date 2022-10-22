@@ -1,18 +1,23 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { DayProps } from '../components/Calendar';
 
 interface ProviderProps {
   children: ReactNode;
 }
+
+export interface StoreProps {
+  name: string;
+  category: string;
+}
 export interface TaskProps {
-  icon?: string;
-  title: string;
-  date: string;
-  loja?: {
-    name: string;
-    category: string;
-  };
+  id: number | null;
+  title?: string | '';
+  scheduledDate?: DayProps | null;
+  conclusionDate?: DayProps | null;
+  store?: StoreProps | null;
   finished: boolean;
-  description: string;
+  description?: string;
+  value?: string;
 }
 
 export interface TaskList {
@@ -25,44 +30,60 @@ const TaskContext = createContext({} as TaskList);
 export default function TaskProvider({ children }: ProviderProps) {
   const [list, setList] = useState<TaskProps[]>([
     {
-      icon: 'silverware-fork-knife',
+      id: 0,
       title: 'Buffet',
-      date: '21/08/2022',
-      loja: { name: 'Patricia Xavier', category: 'Buffet' },
-      finished: true,
+      scheduledDate: {
+        day: 8,
+        month: 11,
+        year: 2022,
+        timestamp: 1667916108000,
+        dateString: '8/11/2022',
+      },
+      conclusionDate: null,
+      store: { name: 'Patricia Xavier', category: 'Buffet' },
+      finished: false,
       description: '',
+      value: '',
     },
     {
-      icon: 'book',
+      id: 1,
       title: 'Cerimônia',
-      date: '22/08/2022',
-      loja: { name: 'Patricia Xavier', category: 'Cerimônia' },
+      scheduledDate: null,
+      conclusionDate: null,
+      store: { name: 'Patricia Xavier', category: 'Cerimônia' },
       finished: false,
       description: 'Fazer tal coisa',
+      value: '',
     },
     {
-      icon: 'party-popper',
+      id: 2,
       title: 'Festa',
-      date: '23/08/2022',
-      loja: { name: 'Ana Monteiro', category: 'Decoração' },
+      scheduledDate: null,
+      conclusionDate: null,
+      store: { name: 'Ana Monteiro', category: 'Decoração' },
       finished: false,
       description: 'Fazer tal coisa',
+      value: '',
     },
     {
-      icon: 'map-marker-outline',
+      id: 3,
       title: 'Lua de Mel',
-      date: '23/08/2022',
-      loja: { name: 'CVC', category: 'Viagem' },
+      scheduledDate: null,
+      conclusionDate: null,
+      store: { name: 'CVC', category: 'Viagem' },
       finished: false,
       description: 'Fazer tal coisa',
+      value: '',
     },
     {
-      icon: 'music',
+      id: 4,
       title: 'Música',
-      date: '23/08/2022',
-      loja: { name: 'David Guetta', category: 'DJ' },
+      scheduledDate: null,
+      conclusionDate: null,
+      store: { name: 'David Guetta', category: 'DJ' },
       finished: false,
       description: 'Fazer tal coisa',
+      value: '',
     },
   ]);
 

@@ -63,3 +63,9 @@ export const BannerInfo = styled.Text`
   font-weight: regular;
   color: ${({ theme }) => theme.colors.white};
 `;
+
+export const BannerInput = styled.TextInput`
+  font-size: 24px;
+  font-weight: regular;
+  color: ${({ theme }) => theme.colors.white};
+`;

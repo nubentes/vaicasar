@@ -7,11 +7,12 @@ import {
 
 import Home from '../screens/Home';
 import Task from '../screens/Task';
-import { TaskProps } from '../components/List';
+import { TaskProps } from '../context/list';
 
-type RootStackParamList = {
+export type RootStackParamList = {
+  navigate(screen: string, obj: { task: TaskProps; type: string }): unknown;
   Home: undefined;
-  Task: { task: TaskProps };
+  Task: { task: TaskProps; type: string };
 };
 
 export type Props = NativeStackScreenProps<RootStackParamList, 'Task'>;

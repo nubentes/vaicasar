@@ -12,11 +12,11 @@ import {
 } from './styles';
 
 interface HeaderProps {
-  banner: string;
+  title: string;
   color: string;
 }
 
-export default function Header({ banner, color }: HeaderProps) {
+export default function Header({ color, title }: HeaderProps) {
   return (
     <Img
       source={{
@@ -37,7 +37,7 @@ export default function Header({ banner, color }: HeaderProps) {
       </Info>
 
       <Banner color={color}>
-        <BannerInfo>{banner}</BannerInfo>
+        <BannerInfo>{title}</BannerInfo>
       </Banner>
     </Img>
   );
