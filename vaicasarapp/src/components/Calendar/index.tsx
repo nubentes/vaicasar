@@ -22,9 +22,19 @@ export interface DayProps {
   timestamp: number;
 }
 
-function Calendar({ onDayPress, markedDates }: CalendarProps) {
+export interface MarkedDateProps {
+  [date: string]: {
+    color: string;
+    textColor: string;
+    disabled?: boolean;
+    disableTouchEvent?: boolean;
+  };
+}
+
+function Calendar({ onDayPress, markedDates, initialDate }: CalendarProps) {
   return (
     <CustomCalendar
+      initialDate={initialDate}
       renderArrow={direction => (
         <Icon
           size={24}
@@ -34,8 +44,8 @@ function Calendar({ onDayPress, markedDates }: CalendarProps) {
       )}
       headerStyle={{
         backgroundColor: theme.colors.white,
-        borderBottomWidth: 0.5,
-        borderBottomColor: theme.colors.red,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.green,
         paddingBottom: 10,
         marginBottom: 10,
       }}
@@ -47,7 +57,8 @@ function Calendar({ onDayPress, markedDates }: CalendarProps) {
           marginHorizontal: -15,
         },
         dayTextColor: theme.colors.black,
-        selectedDayTextColor: theme.colors.red,
+        todayTextColor: theme.colors.white,
+        todayBackgroundColor: theme.colors.green,
       }}
       style={{ borderRadius: 6 }}
       firstDay={1}

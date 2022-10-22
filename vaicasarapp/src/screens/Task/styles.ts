@@ -38,23 +38,6 @@ export const Column = styled.View`
   flex-direction: column;
 `;
 
-export const TitleInput = styled.TextInput`
-  width: 130px;
-  height: 40px;
-
-  border-radius: 6px;
-
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${({ theme }) => theme.colors.black};
-
-  color: ${({ theme }) => theme.colors.black};
-
-  padding-left: 10px;
-
-  font-size: 16px;
-`;
-
 export const DataButton = styled.TouchableOpacity<Props>`
   width: 130px;
   height: 40px;

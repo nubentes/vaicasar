@@ -16,12 +16,13 @@ import {
   Checkbox,
   IconButton,
 } from './styles';
+import { RootStackParamList } from '../../routes/app.routes';
 
 export default function List(): JSX.Element {
   const { list, setList } = useTask();
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackParamList>();
   const theme = useTheme();
   const empty: TaskProps = {
     id: null,
@@ -31,7 +32,6 @@ export default function List(): JSX.Element {
     finished: false,
     store: null,
     description: '',
-    icon: 'arrow',
   };
 
   const changeValue = (item: TaskProps) => {
@@ -66,11 +66,11 @@ export default function List(): JSX.Element {
 
   const handleAction = (item: TaskProps, { type }: { type: string }) => {
     switch (type) {
-      case 'view':
-        navigation.navigate('Task', { task: item, type: 'view' });
-        break;
       case 'add':
-        navigation.navigate('Task', { task: {}, type: 'add' });
+        navigation.navigate('Task', {
+          task: { id: list.length + 1, finished: false },
+          type: 'add',
+        });
 
         break;
       case 'edit':
@@ -110,7 +110,7 @@ export default function List(): JSX.Element {
     return (
       <Item
         key={item.title}
-        onPress={() => handleAction(item, { type: 'view' })}
+        onPress={() => handleAction(item, { type: 'edit' })}
         check={item.finished}
       >
         <Checkbox check={item.finished} onPress={() => changeValue(item)}>
@@ -122,15 +122,6 @@ export default function List(): JSX.Element {
         <Title>{item.title}</Title>
 
         <DateText>{item.scheduledDate?.dateString}</DateText>
-
-        <IconButton onPress={() => handleAction(item, { type: 'edit' })}>
-          <Icon
-            name="pencil-outline"
-            size={24}
-            color={theme.colors.blue}
-            style={{ marginLeft: 10, marginRight: 10 }}
-          />
-        </IconButton>
 
         <IconButton onPress={() => handleAction(item, { type: 'delete' })}>
           <Icon

@@ -3,6 +3,8 @@ import { Alert, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
 import Modal from 'react-native-modal';
+import moment from 'moment';
+
 import { Calendar, DayProps } from '../../components/Calendar';
 import Header from '../../components/Header';
 import { StoreProps, useTask } from '../../context/list';
@@ -19,9 +21,9 @@ import {
   SaveButton,
   DataButton,
   DescriptionInput,
-  TitleInput,
   SaveTitle,
 } from './styles';
+import Input from '../../components/Input';
 
 export default function Task({ navigation, route }: Props) {
   const { list, setList } = useTask();
@@ -31,14 +33,13 @@ export default function Task({ navigation, route }: Props) {
   const [scheduledDate, setScheduledDate] = useState<DayProps | null>(
     task?.scheduledDate || null,
   );
-  const [conclusionDate, setConclusionDate] = useState<DayProps | null>(
-    task?.conclusionDate || null,
-  );
   const [store, setStore] = useState<StoreProps | null>(task?.store || null);
   const [description, setDescription] = useState<string | undefined>(
     task?.description || '',
   );
-  const [finished, setFinished] = useState<boolean>(task?.finished || false);
+
+  const [value, setValue] = useState<string>(task?.value || '');
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const theme = useTheme();
@@ -49,23 +50,19 @@ export default function Task({ navigation, route }: Props) {
     try {
       switch (type) {
         case 'add':
-          console.log('entrou');
           const newElement = {
-            id: list.length + 1,
+            id: task.id,
             icon: 'arrow',
             title,
             scheduledDate,
-            conclusionDate,
+            conclusionDate: null,
             store,
             description,
-            finished,
+            finished: false,
+            value,
           };
 
           const newList = [...list];
-
-          console.log('Antes');
-          newList.map(t => console.log(`${t.id} - ${t.title}`));
-          console.log('Depois');
 
           newList.push(newElement);
 
@@ -79,6 +76,7 @@ export default function Task({ navigation, route }: Props) {
               item.title = title;
               item.scheduledDate = scheduledDate;
               item.description = description;
+              item.value = value;
 
               return item;
             }
@@ -108,7 +106,7 @@ export default function Task({ navigation, route }: Props) {
     date.dateString = formattedDate;
 
     setScheduledDate(date);
-    setModalVisible(false);
+    // setModalVisible(false);
   };
 
   return (
@@ -131,11 +129,11 @@ export default function Task({ navigation, route }: Props) {
 
             <Label>Título: </Label>
 
-            <TitleInput
+            <Input
               value={title}
               autoCorrect={false}
-              autoCapitalize={false}
-              onChangeText={(text: string) => setTitle(text)}
+              autoCapitalize="none"
+              onChangeText={setTitle}
               editable={isNotTypeView}
             />
           </Row>
@@ -155,9 +153,7 @@ export default function Task({ navigation, route }: Props) {
               disabled={!isNotTypeView}
             >
               {scheduledDate?.dateString ? (
-                <Value color={theme.colors.black}>
-                  {scheduledDate?.dateString}
-                </Value>
+                <Value>{scheduledDate?.dateString}</Value>
               ) : (
                 <Value>DD/MM/AAAA</Value>
               )}
@@ -173,8 +169,12 @@ export default function Task({ navigation, route }: Props) {
             onBackdropPress={() => setModalVisible(false)}
           >
             <Calendar
+              initialDate={
+                task.scheduledDate?.dateString
+                  ? task.scheduledDate.dateString.split('/').reverse().join('-')
+                  : moment().format('L').split('/').reverse().join('-')
+              }
               style={{ borderRadius: 10 }}
-              markedDates={{ scheduledDate: { marked: true } }}
               onDayPress={date => onDateChange(date)}
               headerStyle={{
                 borderBottomWidth: 0.5,
@@ -212,10 +212,27 @@ export default function Task({ navigation, route }: Props) {
             <Label>Loja: </Label>
 
             <DataButton disabled={!isNotTypeView}>
-              <Value color={!!task.store?.name}>
-                {task.store?.name || 'Loja'}
-              </Value>
+              <Value>{task.store?.name || 'Loja'}</Value>
             </DataButton>
+          </Row>
+
+          <Row>
+            <Icon
+              name="currency-usd"
+              size={24}
+              color={theme.colors.gray}
+              style={{ marginLeft: 10, marginRight: 10 }}
+            />
+
+            <Label>Valor: </Label>
+
+            <Input
+              value={value}
+              autoCorrect={false}
+              autoCapitalize="none"
+              onChangeText={setValue}
+              editable={isNotTypeView}
+            />
           </Row>
 
           <Column>
