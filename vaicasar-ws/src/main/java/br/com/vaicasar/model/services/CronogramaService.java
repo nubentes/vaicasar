@@ -27,4 +27,12 @@ public class CronogramaService {
 		
 		return cronogramaRepository.save(cronograma);
 	}
+	
+	public Cronograma obterPorId(Long id) {
+		return cronogramaRepository.obterPorId(id);
+	}
+	
+	public Cronograma findById(Long id) {
+		return cronogramaRepository.findByid(id);
+	}
 }

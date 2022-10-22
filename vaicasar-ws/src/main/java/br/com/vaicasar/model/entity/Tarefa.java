@@ -27,6 +27,9 @@ public class Tarefa implements Serializable {
 	@Column(name = "ID_TAREFA")
 	private Long id;
 	
+	@Column(name = "TITULO")
+	private String titulo;
+	
 	@Column(name = "DESCRICAO")
 	private String descricao;
 	
@@ -56,6 +59,14 @@ public class Tarefa implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getDescricao() {
