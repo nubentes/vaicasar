@@ -24,6 +24,11 @@ public class TarefaController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/criar-tarefa")
 	private Cronograma criarTarefa(@RequestBody(required = true) CriarTarefaDTO criarTarefaDTO) {
-		return tarefaService.criarTarefa(criarTarefaDTO);
+		return tarefaService.salvar(criarTarefaDTO);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/editar-tarefa")
+	private Cronograma editarTarefa(@RequestBody(required = true) CriarTarefaDTO criarTarefaDTO) {
+		return tarefaService.salvar(criarTarefaDTO);
 	}
 }

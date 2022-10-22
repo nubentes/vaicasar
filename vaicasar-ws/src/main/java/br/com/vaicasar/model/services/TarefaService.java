@@ -45,7 +45,7 @@ public class TarefaService {
 		return new Date((long) data);
 	}
 	
-	public Cronograma criarTarefa(CriarTarefaDTO criarTarefaDTO) {
+	public Cronograma salvar(CriarTarefaDTO criarTarefaDTO) {
 		Cronograma cronograma = cronogramaService.findById(criarTarefaDTO.getIdCronograma());
 		
 		Tarefa tarefa = criarTarefaDTO.getTarefa();
