@@ -55,4 +55,14 @@ public class TarefaService {
 		
 		return cronogramaService.obterPorId(criarTarefaDTO.getIdCronograma());
 	}
+	
+	public String excluir(Long id) {
+		try {
+			tarefaRepository.deleteById(id);
+			return "Tarefa excluida com sucesso!";
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+		
+	}
 }

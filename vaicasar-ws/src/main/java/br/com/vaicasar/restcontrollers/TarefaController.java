@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vaicasar.dto.CriarTarefaDTO;
@@ -18,17 +19,22 @@ public class TarefaController {
 	private TarefaService tarefaService;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/criar-base")
-	private Cronograma criarTarefasBase(@RequestBody(required = true) Cronograma cronograma) {
+	public Cronograma criarTarefasBase(@RequestBody(required = true) Cronograma cronograma) {
 		return tarefaService.criarTarefasBase(cronograma);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/criar-tarefa")
-	private Cronograma criarTarefa(@RequestBody(required = true) CriarTarefaDTO criarTarefaDTO) {
+	public Cronograma criarTarefa(@RequestBody(required = true) CriarTarefaDTO criarTarefaDTO) {
 		return tarefaService.salvar(criarTarefaDTO);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/editar-tarefa")
-	private Cronograma editarTarefa(@RequestBody(required = true) CriarTarefaDTO criarTarefaDTO) {
+	public Cronograma editarTarefa(@RequestBody(required = true) CriarTarefaDTO criarTarefaDTO) {
 		return tarefaService.salvar(criarTarefaDTO);
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/excluir-tarefa")
+	public String excluirTarefa(@RequestParam(name = "id", required = true) Long id) {
+		return tarefaService.excluir(id);
 	}
 }
