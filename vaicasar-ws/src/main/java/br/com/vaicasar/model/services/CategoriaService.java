@@ -19,4 +19,19 @@ public class CategoriaService {
 	public List<Categoria> obterTodos() {
 		return categoriaRepository.findAll();
 	}
+	
+	public Categoria salvarCategoria(Categoria categoria) {
+		return categoriaRepository.save(categoria);
+	}
+	
+	public String excluirCategoria(long id) {
+		try {
+			categoriaRepository.deleteById(id);
+			return "Tarefa excluida com sucesso!";
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+	}
+	
+	
 }

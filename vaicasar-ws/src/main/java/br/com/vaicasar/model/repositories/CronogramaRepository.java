@@ -10,7 +10,7 @@ public interface CronogramaRepository extends JpaRepository<Cronograma, Long> {
 
 	@Query(value = "SELECT co "
 			+ " FROM Cronograma co "
-			+ " INNER JOIN FETCH co.tarefas ta "
+			+ " LEFT JOIN FETCH co.tarefas ta "
 			+ " WHERE co.id = :id")
 	public Cronograma obterPorId(@Param("id") Long id);
 	
