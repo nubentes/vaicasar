@@ -4,15 +4,20 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import br.com.vaicasar.model.entity.Loja;
 
 public interface LojaRepository extends JpaRepository<Loja, Long> {
-
-	@Query(value = "SELECT loja "
-			+ " FROM Loja loja "
-			+ " INNER JOIN FETCH loja.endereco ende "
-			+ " INNER JOIN FETCH loja.categoria cate "
-			+ " INNER JOIN FETCH loja.fotosLoja fotos ")
-	public List<Loja> obterTodos();
+	
+	@Query(value = "SELECT l "
+			+ " FROM Loja l "
+			+ " WHERE l.id = :idLoja ")
+	public Loja obterPorId(@Param("idLoja") Long idLoja);
+	
+	@Query(value = "SELECT l"
+			+ " FROM Loja l "
+			+ " INNER JOIN l.categoria c "
+			+ " WHERE c.id = :idCategoria")
+	public List<Loja> obterPorCategoria(@Param("idCategoria") Long idCategoria);
 }

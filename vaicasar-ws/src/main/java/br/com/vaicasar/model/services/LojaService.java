@@ -17,6 +17,19 @@ public class LojaService {
 	private LojaRepository lojaRepository;
 	
 	public List<Loja> obterTodos() {
-		return lojaRepository.obterTodos();
+		return lojaRepository.findAll();
 	}
+	
+	public Loja obterPorId(Long idLoja) {
+		return lojaRepository.obterPorId(idLoja);
+	}
+	
+	public List<Loja> obterPorCategoria(Long idCategoria) {
+		return lojaRepository.obterPorCategoria(idCategoria);
+	}
+	
+	public Loja salvar(Loja loja) {
+		return lojaRepository.save(loja);
+	}
+	
 }

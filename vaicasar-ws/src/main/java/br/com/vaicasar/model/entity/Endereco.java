@@ -34,8 +34,8 @@ public class Endereco implements Serializable {
 	@Column(name = "CIDADE")
 	private String cidade;
 	
-	@Column(name = "ESTADO")
-	private String estado;
+	@Column(name = "ESTADO_UF")
+	private String estadoUF;
 	
 	@Column(name = "CEP")
 	private String cep;
@@ -78,14 +78,14 @@ public class Endereco implements Serializable {
 		this.cidade = cidade;
 	}
 	
-	public String getEstado() {
-		return estado;
+	public String getEstadoUF() {
+		return estadoUF;
 	}
-	
-	public void setEstado(String estado) {
-		this.estado = estado;
+
+	public void setEstadoUF(String estadoUF) {
+		this.estadoUF = estadoUF;
 	}
-	
+
 	public String getCep() {
 		return cep;
 	}
