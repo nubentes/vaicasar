@@ -1,6 +1,7 @@
 package br.com.vaicasar.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -41,8 +42,8 @@ public class Tarefa implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT-3")
 	private Date dataConclusao;
 	
-	@Column(name = "VALOR")
-	private double valor;
+	@Column(name = "VALOR", columnDefinition="decimal", precision=7, scale=2)
+	private BigDecimal valor;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -93,11 +94,11 @@ public class Tarefa implements Serializable {
 		this.dataConclusao = dataConclusao;
 	}
 
-	public double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

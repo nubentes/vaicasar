@@ -1,6 +1,7 @@
 package br.com.vaicasar.model.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,11 +39,11 @@ public class Loja implements Serializable {
 	@Column(name = "AVALIACAO")
 	private double avaliacao;
 	
-	@Column(name = "FAIXA_PRECO_INICIAL")
-	private double precoInicial;
+	@Column(name = "FAIXA_PRECO_INICIAL", columnDefinition="decimal", precision=7, scale=2)
+	private BigDecimal precoInicial;
 	
-	@Column(name = "FAIXA_PRECO_FINAL")
-	private double precoFinal;
+	@Column(name = "FAIXA_PRECO_FINAL", columnDefinition="decimal", precision=7, scale=2)
+	private BigDecimal precoFinal;
 	
 	@Column(name = "TELEFONE")
 	private String telefone;
@@ -58,6 +59,7 @@ public class Loja implements Serializable {
 	@JoinColumn(name = "ID_CATEGORIA")
 	private Categoria categoria;
 	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
@@ -97,19 +99,19 @@ public class Loja implements Serializable {
 		this.avaliacao = avaliacao;
 	}
 
-	public double getPrecoInicial() {
+	public BigDecimal getPrecoInicial() {
 		return precoInicial;
 	}
 
-	public void setPrecoInicial(double precoInicial) {
+	public void setPrecoInicial(BigDecimal precoInicial) {
 		this.precoInicial = precoInicial;
 	}
 
-	public double getPrecoFinal() {
+	public BigDecimal getPrecoFinal() {
 		return precoFinal;
 	}
 
-	public void setPrecoFinal(double precoFinal) {
+	public void setPrecoFinal(BigDecimal precoFinal) {
 		this.precoFinal = precoFinal;
 	}
 

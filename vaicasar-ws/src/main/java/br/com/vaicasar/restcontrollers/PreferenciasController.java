@@ -16,7 +16,7 @@ import br.com.vaicasar.model.services.PreferenciasService;
 
 @RestController
 @RequestMapping(value = "/preferencias", produces = "application/json")
-public class PreferenciasController {
+public class PreferenciasController extends AbstractRestController {
 
 	@Autowired
 	private PreferenciasService preferenciasService;

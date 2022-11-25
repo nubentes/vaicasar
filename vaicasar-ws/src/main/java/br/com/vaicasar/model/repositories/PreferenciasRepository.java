@@ -51,4 +51,12 @@ public interface PreferenciasRepository extends JpaRepository<Preferencias, Long
 	@Query(value = "DELETE FROM Preferencias WHERE id IN(:idsPreferencias) ")
 	public Integer limparLista(@Param("idsPreferencias") List<Long> idsPreferencias);
 	
+	@Query(value = "SELECT COUNT(pre) "
+			+ " FROM Preferencias pre "
+			+ " INNER JOIN pre.pessoa pes "
+			+ " INNER JOIN pre.loja lo "
+			+ " WHERE pes.id = :idPessoa "
+			+ " AND lo.id = :idLoja ")
+	public Integer lojaAdicionada(@Param("idPessoa") Long idPessoa, @Param("idLoja") Long idLoja);
+	
 }
