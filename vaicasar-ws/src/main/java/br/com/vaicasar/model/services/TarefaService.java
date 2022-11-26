@@ -96,4 +96,20 @@ public class TarefaService {
 		return tarefaRepository.save(tarefa);
 	}
 	
+	public Tarefa editarTarefa(CriarTarefaDTO tarefaDTO) {
+		Cronograma cronograma = cronogramaRepository.obterPorId(tarefaDTO.getIdCronograma());
+		
+		if (cronograma == null)
+			throw new NotFoundException(messages.get("MS004"));
+		
+		Tarefa tarefa = tarefaDTO.getTarefa();
+		tarefa.setCronograma(cronograma);
+		
+		return tarefaRepository.save(tarefa);
+	}
+	
+	public Tarefa obterPorId(Long idTarefa) {
+		return tarefaRepository.obterPorId(idTarefa);
+	}
+	
 }

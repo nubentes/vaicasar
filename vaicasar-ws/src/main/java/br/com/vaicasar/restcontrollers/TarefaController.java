@@ -38,10 +38,14 @@ public class TarefaController extends AbstractRestController {
 		return tarefaService.desmarcarConcluida(idTarefa);
 	}
 	
-//	@RequestMapping(method = RequestMethod.PUT, value = "/editar-tarefa")
-//	public Cronograma editarTarefa(@RequestBody(required = true) CriarTarefaDTO criarTarefaDTO) {
-//		return tarefaService.salvar(criarTarefaDTO);
-//	}
+	@RequestMapping(method = RequestMethod.PUT, value = "/editar")
+	public Tarefa editarTarefa(@RequestBody(required = true) CriarTarefaDTO tarefaDTO) {
+		return tarefaService.editarTarefa(tarefaDTO);
+	}
 	
+	@RequestMapping(method = RequestMethod.GET)
+	public Tarefa obterPorId(@RequestParam(name = "id", required = true) Long idTarefa) {
+		return tarefaService.obterPorId(idTarefa);
+	}
 
 }
