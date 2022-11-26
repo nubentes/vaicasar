@@ -13,7 +13,7 @@ import br.com.vaicasar.model.services.CronogramaService;
 
 @RestController
 @RequestMapping(value = "/cronograma", produces = "application/json")
-public class CronogramaController {
+public class CronogramaController extends AbstractRestController {
 	
 	@Autowired
 	private CronogramaService cronogramaService;

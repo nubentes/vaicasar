@@ -14,7 +14,7 @@ import br.com.vaicasar.model.services.CategoriaService;
 
 @RestController
 @RequestMapping(value = "/categoria", produces = "application/json")
-public class CategoriaController {
+public class CategoriaController extends AbstractRestController {
 
 	@Autowired
 	private CategoriaService categoriaService;

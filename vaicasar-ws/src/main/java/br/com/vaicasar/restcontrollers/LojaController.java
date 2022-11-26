@@ -14,7 +14,7 @@ import br.com.vaicasar.model.services.LojaService;
 
 @RestController
 @RequestMapping(value = "/loja", produces = "application/json")
-public class LojaController {
+public class LojaController extends AbstractRestController {
 	
 	@Autowired
 	private LojaService lojaService;

@@ -14,6 +14,9 @@ public interface CronogramaRepository extends JpaRepository<Cronograma, Long> {
 			+ " WHERE co.id = :id")
 	public Cronograma obterPorId(@Param("id") Long id);
 	
-	@Query(value = "SELECT co FROM Cronograma co WHERE co.id = :id")
-	public Cronograma findByid(@Param("id") Long id);
+	@Query(value = "SELECT COUNT(co) "
+			+ " FROM Cronograma co "
+			+ " INNER JOIN co.pessoa pe "
+			+ " WHERE pe.id = :idPessoa ")
+	public Integer possuiCronograma(@Param("idPessoa") Long idPessoa);
 }

@@ -10,7 +10,7 @@ import br.com.vaicasar.model.services.UsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuario", produces = "application/json")
-public class UsuarioController {
+public class UsuarioController extends AbstractRestController {
 
 	@Autowired
 	private UsuarioService usuarioService;

@@ -26,8 +26,8 @@ public class TemplateTarefas implements Serializable {
 	@Column(name = "DESCRICAO")
 	private String descricao;
 	
-	@Column(name = "PROCENTAGEM")
-	private int procentagem;
+	@Column(name = "PORCENTAGEM")
+	private int porcentagem;
 
 	public Long getId() {
 		return id;
@@ -53,12 +53,12 @@ public class TemplateTarefas implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public int getProcentagem() {
-		return procentagem;
+	public int getPorcentagem() {
+		return porcentagem;
 	}
 
-	public void setProcentagem(int procentagem) {
-		this.procentagem = procentagem;
+	public void setPorcentagem(int porcentagem) {
+		this.porcentagem = porcentagem;
 	}
 
 }
