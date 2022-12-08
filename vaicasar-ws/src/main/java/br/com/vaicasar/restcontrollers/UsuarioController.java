@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vaicasar.config.TokenProvider;
+import br.com.vaicasar.dto.UsuarioDTO;
 import br.com.vaicasar.model.entity.Usuario;
 import br.com.vaicasar.model.services.UsuarioService;
 
@@ -30,11 +31,15 @@ public class UsuarioController extends AbstractRestController {
 	public Usuario realizarLogin(@RequestBody(required = true) Usuario u) throws Exception {
 		Usuario usuario = usuarioService.validarLogin(u);
 		
-		final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getSenha()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		String token = tokenProvider.generateToken(authentication);
-		usuario.setToken(token);
+		
+		usuario.setToken(obterToken(usuario.getEmail(), usuario.getSenha()));
+		return usuario;
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/criar")
+	public Usuario salvar(@RequestBody(required = true) UsuarioDTO usuarioDTO) throws Exception {
+		Usuario usuario = usuarioService.salvar(usuarioDTO);
+		usuario.setToken(obterToken(usuario.getEmail(), usuario.getSenha()));
 		return usuario;
 	}
 	
@@ -46,5 +51,13 @@ public class UsuarioController extends AbstractRestController {
 	@RequestMapping(method = RequestMethod.GET, path = "/teste")
 	public String obterPorCriterio() {
 		return "Webservice vaicasar-ws está online!";
+	}
+	
+	private String obterToken(String email, String senha) {
+		final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, senha));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		String token = tokenProvider.generateToken(authentication);
+		return token;
 	}
 }

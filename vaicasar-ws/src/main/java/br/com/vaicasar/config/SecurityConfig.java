@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private String[] getWhitelist() {
-		String[] whitelist = { "/usuario/teste", "/usuario/logar" };
+		String[] whitelist = { "/usuario/teste", "/usuario/logar", "/usuario/criar" };
 		return whitelist;
 	}
 

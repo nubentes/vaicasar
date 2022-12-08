@@ -11,7 +11,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.vaicasar.dto.UsuarioDTO;
+import br.com.vaicasar.exceptions.NotAcceptableException;
 import br.com.vaicasar.exceptions.RulesException;
+import br.com.vaicasar.model.entity.Pessoa;
 import br.com.vaicasar.model.entity.Usuario;
 import br.com.vaicasar.model.repositories.UsuarioRepository;
 import br.com.vaicasar.security.CriptografiaMd5;
@@ -22,6 +25,8 @@ public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private PessoaService pessoaService;
 	
 	public Usuario validarLogin(Usuario u) throws RulesException {
 		Usuario usuario = obterPorEmail(u.getEmail());
@@ -49,6 +54,30 @@ public class UsuarioService implements UserDetailsService {
 		Integer possui = usuarioRepository.possuiEmailCadastrado(email);
 		
 		return possui > 0 ? true : false;
+	}
+	
+	public Usuario salvar(UsuarioDTO dto) {
+		Usuario user = new Usuario();
+		user.setId((long) 0);
+		user.setEmail(dto.getEmail());
+		user.setSenha(dto.getSenha());
+		
+		Usuario usuario = obterPorEmail(dto.getEmail());
+		
+		if (usuario != null && user.getId() == 0)
+			throw new NotAcceptableException("Já existe um usuário cadastrado com o email informado.");
+		
+		user.setSenha(CriptografiaMd5.encript(user.getEmail(), user.getSenha()));
+		
+		Usuario u = usuarioRepository.save(user);
+		
+		Pessoa pessoa = new Pessoa();
+		pessoa.setNome(dto.getNome());
+		pessoa.setTelefone(dto.getTelefone());
+		pessoa.setUsuario(u);
+		pessoaService.salvar(pessoa);
+		
+		return u;
 	}
 
 	@Override
