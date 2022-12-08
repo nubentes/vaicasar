@@ -17,5 +17,9 @@ public class PessoaService {
 	public Pessoa findByIdUsuario(Long idUsuario) {
 		return pessoaRepository.findByIdUsuario(idUsuario);
 	}
+	
+	public Pessoa salvar(Pessoa pessoa) {
+		return pessoaRepository.save(pessoa);
+	}
 
 }

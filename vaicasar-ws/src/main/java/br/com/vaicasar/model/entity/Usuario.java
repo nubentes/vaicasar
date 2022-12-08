@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "USUARIO")
@@ -25,6 +26,9 @@ public class  Usuario implements Serializable  {
 	
 	@Column(name = "SENHA")
 	private String senha;
+	
+	@Transient
+	private String token;
 
 	public Long getId() {
 		return id;
@@ -48,6 +52,14 @@ public class  Usuario implements Serializable  {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

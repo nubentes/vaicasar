@@ -16,6 +16,30 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>desenvolvimento-local</id>
+			<properties>
+				<profile>desenvolvimento-local</profile>
+				<ip-banco>localhost:3306</ip-banco>
+				<usuario-banco>samuel</usuario-banco>
+				<senha-banco>samuel</senha-banco>
+				<show-sql>true</show-sql>
+				<nomebanco>vaicasar</nomebanco>
+			</properties>
+		</profile>
+		<profile>
+			<id>desenvolvimento-remoto</id>
+			<properties>
+				<profile>desenvolvimento-remoto</profile>
+				<ip-banco>database-1.cfhl3aaswzrn.us-east-1.rds.amazonaws.com:3306</ip-banco>
+				<usuario-banco>admin</usuario-banco>
+				<senha-banco>admin</senha-banco>
+				<show-sql>false</show-sql>
+				<nomebanco>vaicasar</nomebanco>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -56,6 +80,31 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>2.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-hibernate5 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate5</artifactId>
+			<version>2.13.3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 	</dependencies>
 
