@@ -60,4 +60,16 @@ public class UsuarioController extends AbstractRestController {
 		String token = tokenProvider.generateToken(authentication);
 		return token;
 	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/editar")
+	private Usuario editar(@RequestBody(required = true) UsuarioDTO usuarioDTO) {
+		Usuario usuario =  usuarioService.editar(usuarioDTO);
+		usuario.setToken(obterToken(usuario.getEmail(), usuario.getSenha()));
+		return usuario;
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/alterar")
+	private Usuario alterarSenha(@RequestBody(required = true) Usuario usuario) {
+		return usuarioService.alterarSenha(usuario);
+	}
 }
