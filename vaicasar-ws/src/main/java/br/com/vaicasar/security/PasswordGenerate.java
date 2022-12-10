@@ -10,19 +10,19 @@ public class PasswordGenerate {
 	
 	private PasswordGenerate() {}
 	
-	public static void main(String[] args) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String email = "demelo@vaicasar.com";
-		String senha = "123456";
-		
-		String encodedPassword = encoder.encode(email + senha);
-		String md5Password = new CustomPasswordEncoder().encodeMD5(email + senha);
-		log.info(md5Password);
-		log.info(encodedPassword);
-		log.info("update USUARIO set SENHA = '"+ md5Password+ "' where EMAIL = '" + email + "'");
-		String resultado = Boolean.toString(encoder.matches(senha, encodedPassword));
-		log.info(resultado);
-
-	}
+//	public static void main(String[] args) {
+//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//		String email = "demelo@vaicasar.com";
+//		String senha = "123456";
+//		
+//		String encodedPassword = encoder.encode(email + senha);
+//		String md5Password = new CustomPasswordEncoder().encodeMD5(email + senha);
+//		log.info(md5Password);
+//		log.info(encodedPassword);
+//		log.info("update USUARIO set SENHA = '"+ md5Password+ "' where EMAIL = '" + email + "'");
+//		String resultado = Boolean.toString(encoder.matches(senha, encodedPassword));
+//		log.info(resultado);
+//
+//	}
 
 }

@@ -34,7 +34,7 @@
 				<profile>desenvolvimento-remoto</profile>
 				<ip-banco>database-1.cfhl3aaswzrn.us-east-1.rds.amazonaws.com:3306</ip-banco>
 				<usuario-banco>admin</usuario-banco>
-				<senha-banco>admin</senha-banco>
+				<senha-banco>z1Q4xC1XQ1jq</senha-banco>
 				<show-sql>false</show-sql>
 				<nomebanco>vaicasar</nomebanco>
 			</properties>
