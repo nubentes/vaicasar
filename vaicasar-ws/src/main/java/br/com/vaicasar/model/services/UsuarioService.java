@@ -79,6 +79,24 @@ public class UsuarioService implements UserDetailsService {
 		
 		return u;
 	}
+	
+	public Usuario editar(UsuarioDTO dto) {
+		Usuario usuario = new Usuario();
+		usuario.setId(dto.getIdUsuario());
+		usuario.setEmail(dto.getEmail());
+		usuario.setSenha(CriptografiaMd5.encript(usuario.getEmail(), dto.getSenha()));
+		
+		Usuario u = usuarioRepository.save(usuario);
+		
+		Pessoa pessoa = pessoaService.findByIdUsuario(u.getId());
+		pessoa.setNome(dto.getNome());
+		pessoa.setTelefone(dto.getTelefone());
+		pessoa.setUsuario(u);
+		
+		pessoaService.salvar(pessoa);
+		
+		return u;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

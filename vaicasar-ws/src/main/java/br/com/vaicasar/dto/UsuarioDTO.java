@@ -6,11 +6,20 @@ public class UsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 559437379276591116L;
 	
+	private Long idUsuario;
 	private String nome;
 	private String email;
 	private String telefone;
 	private String senha;
 	
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 	public String getNome() {
 		return nome;
 	}
