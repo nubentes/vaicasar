@@ -97,6 +97,17 @@ public class UsuarioService implements UserDetailsService {
 		
 		return u;
 	}
+	
+	public Usuario alterarSenha(Usuario u) {
+		Usuario usuario = obterPorEmail(u.getEmail());
+		
+		if (usuario != null)
+			usuario.setSenha(CriptografiaMd5.encript(usuario.getEmail(), u.getSenha()));
+		else
+			throw new NotAcceptableException("Usuário não cadastrado.");
+		
+		return usuarioRepository.save(usuario);
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
