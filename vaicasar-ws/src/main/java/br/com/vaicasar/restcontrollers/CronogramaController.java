@@ -27,5 +27,15 @@ public class CronogramaController extends AbstractRestController {
 	public Cronograma obterCronograma(@RequestParam(name = "id", required = true) Long id) {
 		return cronogramaService.obterPorId(id);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/usuario")
+	public Cronograma obterPorIdUsuario(@RequestParam(name = "id", required = true) Long idUsuario) {
+		return cronogramaService.obterPorIdUsuario(idUsuario);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/pessoa")
+	public Cronograma obterPorIdPessoa(@RequestParam(name = "id", required = true) Long idPessoa) {
+		return cronogramaService.obterPorIdPessoa(idPessoa);
+	}
 
 }

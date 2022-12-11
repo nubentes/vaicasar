@@ -50,4 +50,12 @@ public class CronogramaService {
 		return cronogramaRepository.obterPorId(id);
 	}
 	
+	public Cronograma obterPorIdUsuario(Long idUsuario) {
+		return cronogramaRepository.obterPorIdUsuario(idUsuario);
+	}
+	
+	public Cronograma obterPorIdPessoa(Long idPessoa) {
+		return cronogramaRepository.obterPorIdPessoa(idPessoa);
+	}
+	
 }
