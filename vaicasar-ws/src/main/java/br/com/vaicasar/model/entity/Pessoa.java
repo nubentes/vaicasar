@@ -37,6 +37,7 @@ public class Pessoa implements Serializable {
 	@Column(name = "TELEFONE")
 	private String telefone;
 	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "pessoa")
 	private Cronograma cronograma;
 
