@@ -69,6 +69,9 @@ public class UsuarioService implements UserDetailsService {
 		
 		user.setSenha(CriptografiaMd5.encript(user.getEmail(), user.getSenha()));
 		
+		if (user.getEmail() == null || user.getEmail().equals(""))
+			throw new NotAcceptableException("O campo email está vazio.");
+		
 		Usuario u = usuarioRepository.save(user);
 		
 		Pessoa pessoa = new Pessoa();
